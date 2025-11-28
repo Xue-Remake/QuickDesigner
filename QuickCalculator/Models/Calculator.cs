@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickCalculator
+namespace QuickCalculator.Models
 {
     /// <summary>
     /// 快速计算器主类，负责协调角色、道具和公式的计算流程。
@@ -206,7 +206,7 @@ namespace QuickCalculator
                         if (dis[0] == "second")
                         {
                             if (tmp2.Attributes.ContainsKey(dis[1]))
-                                vals.Push((tmp2.Attributes[dis[1]]));
+                                vals.Push(tmp2.Attributes[dis[1]]);
                             else
                                 throw new Exception("Failed to locate specified attribute: Character One does not possess this attribute.");
                             //指定属性查找失败：角色一不存在这个给属性

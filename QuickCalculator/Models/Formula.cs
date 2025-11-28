@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickCalculator
+namespace QuickCalculator.Models
 {
     /// <summary>
     /// 公式类，用于表示和验证数学公式的可计算性。
@@ -34,7 +34,7 @@ namespace QuickCalculator
         public static double NewRandom(double min, double max)
         {
             Random r = new Random();
-            double random = min + (r.NextDouble() * (max - min));
+            double random = min + r.NextDouble() * (max - min);
             return random;
         }
 
@@ -45,6 +45,15 @@ namespace QuickCalculator
             Distinction = false; //未经过可算性检验，默认为false
             Name = name;
             Form = form;
+            Target = "null"; 
+            //"null"代表公式没有实例改变值，用于两个临时角色的最终计算
+        }
+        public Formula(string name, string form, string target)
+        {
+            Distinction = false; //未经过可算性检验，默认为false
+            Name = name;
+            Form = form;
+            Target = target;
         }
 
         //可算性检验方法，将关键字全部替换成随机数进行计算
@@ -52,7 +61,7 @@ namespace QuickCalculator
         {
             Stack<double> vals = new Stack<double>();
             Stack<string> Operator = new Stack<string>();
-            string[] symbols = this.Form.Split(' ');
+            string[] symbols = Form.Split(' ');
             for (int i = 0; i < symbols.Length; i++)
             {
                 if (symbols[i].Equals("(")) ;

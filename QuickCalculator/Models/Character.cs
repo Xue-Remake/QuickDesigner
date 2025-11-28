@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickCalculator
+namespace QuickCalculator.Models
 {
     public class Character : GameObj
     {

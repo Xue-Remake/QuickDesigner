@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickCalculator
+namespace QuickCalculator.Models
 {
     /**
      * 角色和道具类的基类

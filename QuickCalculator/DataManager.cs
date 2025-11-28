@@ -1,27 +1,35 @@
-﻿using System;
+﻿using QuickCalculator.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+
+
 namespace QuickCalculator
 {
-    /**
-     * 数据文件管理类API:
-     * SaveCharacters(List<Character> characters, string filePath)   保存角色列表到JSON文件
-     * SaveItems(List<Item> items, string filePath)                  保存道具列表到JSON文件
-     * LoadCharacters(string filePath)                               读取JSON文件中的角色数据，返回List<Character>
-     * LoadItems(string filePath)                                    读取JSON文件中的道具数据，返回List<Item>
-     * FindCharacter(string name, string filePath)                   从JSON文件中查找指定名称的Character实例
-     * FindItem(string name, string filePath)                        从JSON文件中查找指定名称的Item实例
-     * ChangeCharacter_Remove(string name, string filePath, string attribute)            移除角色的指定属性
-     * ChangeItem_Remove(string name, string filePath, string attribute)                 移除道具的指定属性
-     * ChangeCharacter_Add(string name, string filePath, string attribute, double value) 为角色添加属性
-     * ChangeItem_Add(string name, string filePath, string attribute, double value)      为道具添加属性
-     * ChangeCharacter_Set(string name, string filePath, string attribute, double value) 设置角色的属性值
-     * ChangeItem_Set(string name, string filePath, string attribute, double value)      设置道具的属性值
-     */
+    /// <summary>
+    /// 数据文件管理类，用于保存和读取Character和Item的JSON数据文件。
+    /// SaveCharacters(List<Character> characters, string filePath)   保存角色列表到JSON文件
+    /// SaveItems(List<Item> items, string filePath)                  保存道具列表到JSON文件
+    /// LoadCharacters(string filePath)                               读取JSON文件中的角色数据，返回List<Character>
+    /// LoadItems(string filePath)                                    读取JSON文件中的道具数据，返回List<Item>
+    /// FindCharacter(string name, string filePath)                   从JSON文件中查找指定名称的Character实例
+    /// FindItem(string name, string filePath)                        从JSON文件中查找指定名称的Item实例
+    /// ChangeCharacter_Remove(string name, string filePath, string attribute)            移除角色的指定属性
+    /// ChangeItem_Remove(string name, string filePath, string attribute)                 移除道具的指定属性
+    /// ChangeCharacter_Add(string name, string filePath, string attribute, double value) 为角色添加属性
+    /// ChangeItem_Add(string name, string filePath, string attribute, double value)      为道具添加属性
+    /// ChangeCharacter_Set(string name, string filePath, string attribute, double value) 设置角色的属性值
+    /// ChangeItem_Set(string name, string filePath, string attribute, double value)      设置道具的属性值
+    /// SaveFormula(List<Formula> formulas, string filePath)                     保存公式列表到JSON文件
+    /// LoadFormulas(string filePath)                                            读取JSON文件中的公式数据，返回List<Formula>
+    /// FindFormula(string name, string filePath)                                从JSON文件中查找指定名称的Formula实例
+    /// </summary>
+
+
     //配置JSON序列化选项
     public static class DataManager
     {
@@ -277,6 +285,31 @@ namespace QuickCalculator
                 return new Formula(null, null);
             }
             return allformulas.Find(c => c.Name == name);
+        }
+
+        //查询会话中的临时数据在文件中是否名称重复
+        public static bool IsRepetitive<T>(string name, string filePath)
+        {
+            //使用泛型方法，根据类型T来决定查询数据的类别
+            if (typeof(T) == typeof(Character))
+            {
+                var allCharacters = LoadCharacters(filePath);
+                return allCharacters.Any(c => c.Name == name);
+            }
+            else if (typeof(T) == typeof(Item))
+            {
+                var allItems = LoadItems(filePath);
+                return allItems.Any(i => i.Name == name);
+            }
+            else if (typeof(T) == typeof(Formula))
+            {
+                var allFormulas = LoadFormulas(filePath);
+                return allFormulas.Any(f => f.Name == name);
+            }
+            else
+            {
+                throw new ArgumentException("Unsupported type for repetition check.");
+            }
         }
     }
 }
